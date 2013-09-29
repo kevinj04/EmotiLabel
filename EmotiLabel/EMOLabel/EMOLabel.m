@@ -21,7 +21,6 @@
     return self;
 }
 
-
 // http://stackoverflow.com/questions/9827680/iphone-break-the-text-into-line-for-frame
 // https://developer.apple.com/library/mac/samplecode/CoreTextArcCocoa/Listings/CoreTextArcCocoa_APLCoreTextArcView_m.html#//apple_ref/doc/uid/DTS40007771-CoreTextArcCocoa_APLCoreTextArcView_m-DontLinkElementID_4
 
@@ -52,27 +51,35 @@
     return [NSString stringWithString:xString];
 }
 
+- (CGPathRef)createBoundingPath {
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddRect(path, NULL, self.frame);
+    return path;
+}
+
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
 
-    NSDictionary *attributes = [self attributesForSubstring:@":allthethings:"];
-    CGSize sizeOfSpace = [self heightOfCharacter:@" " withAttributes:attributes];
-    CGSize emoticonSize = [self sizeForHeight:sizeOfSpace.height withImageSize:CGSizeMake(500, 355)];
-    NSString *spaceString = [self stringOfSize:emoticonSize withAttributes:attributes];
-
-    CGContextRef context;
-
-    context = UIGraphicsGetCurrentContext();
+    // Drawing Context needs to be flipped for text?
+    CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextConcatCTM(context, CGAffineTransformScale(CGAffineTransformMakeTranslation(0, self.bounds.size.height), 1.f, -1.f));
 
-    CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)self.attributedText);
+    self.lineBreakMode = NSLineBreakByTruncatingTail;
 
-    CGPathRef path = [[UIBezierPath bezierPathWithRect:self.frame] CGPath];
-    CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), path, NULL);
+    CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)(self.attributedText));
+    CGPathRef path = [self createBoundingPath];
+    CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, self.text.length), path, NULL);
 
     CFArrayRef lines = CTFrameGetLines(frame);
     CFIndex lineCount = CFArrayGetCount(lines);
+
+
+
+    CGPoint *lineOffsets = malloc(sizeof(CGPoint)*lineCount);
+    CTFrameGetLineOrigins(frame, CFRangeMake(0, lineCount), lineOffsets);
+
+    NSLog(@"lines %li", lineCount);
 
     NSUInteger idx = 0;
     for (; idx < lineCount; idx++) {
@@ -82,92 +89,58 @@
 
         NSString *lineString = [self.text substringWithRange:range];
 
+        CGPoint lineOffset = lineOffsets[idx];
+        NSLog(@"line offset: %@", NSStringFromCGPoint(lineOffset));
+
         NSRange searchResultRange = [lineString rangeOfString:@":allthethings:"];
         if (searchResultRange.location != NSNotFound) {
 
+            NSDictionary *attributes = [self attributesForSubstring:@":allthethings:"];
+            CGSize sizeOfSpace = [self heightOfCharacter:@" " withAttributes:attributes];
+            CGSize emoticonSize = [self sizeForHeight:sizeOfSpace.height withImageSize:CGSizeMake(500, 355)];
+            NSString *spaceString = [self stringOfSize:emoticonSize withAttributes:attributes];
+
             CFArrayRef runArray = CTLineGetGlyphRuns(line);
             CFIndex runCount = CFArrayGetCount(runArray);
+
 
             CGRect daBears;
             for (int runIndex = 0; runIndex < runCount; runIndex++) {
 
                 CTRunRef run = (CTRunRef)CFArrayGetValueAtIndex(runArray, runIndex);
                 if (CTRunGetGlyphCount(run) > searchResultRange.location) {
-                    daBears = CTRunGetImageBounds(run, context, CFRangeMake(searchResultRange.location, searchResultRange.length));
-                    daBears = CGRectMake(daBears.origin.x, daBears.origin.y, emoticonSize.width, emoticonSize.height);
+                    CFRange runRange = CTRunGetStringRange(run);
+                    daBears = CTRunGetImageBounds(run, context, CFRangeMake(searchResultRange.location, runRange.length - searchResultRange.location));
+                    NSLog(@"%@", NSStringFromCGRect(self.frame));
+                    NSLog(@"%@", NSStringFromCGRect(daBears));
+                    daBears = CGRectMake(daBears.origin.x, emoticonSize.height+10, emoticonSize.width, emoticonSize.height);
                     NSLog(@"%@", NSStringFromCGRect(daBears));
                 }
             }
 
-
             self.text = [self.attributedText.string stringByReplacingCharactersInRange:searchResultRange withString:spaceString];
-            CFRelease(line);
 
+            //CGContextSetTextPosition(context, 0.0, 10.0);
+            //CTLineDraw(line, context);
+            //CFRelease(line);
 
             CGContextSetRGBFillColor(context, 1.0, 0.0, 0.0, 0.4);
             CGContextConcatCTM(context, CGAffineTransformScale(CGAffineTransformMakeTranslation(0, self.bounds.size.height), 1.f, -1.f));
             CGContextFillRect(context, daBears);
 
 
+
             UIImage *img = [UIImage imageNamed:@"allthethings.png"];
-            //CGContextConcatCTM(context, CGAffineTransformScale(CGAffineTransformMakeTranslation(0, self.bounds.size.height), 1.f, -1.f));
             [img drawInRect:daBears];
 
+            NSLog(@"I FOUND ALL THE THINGS!");
             break;
         }
         
         idx++;
     }
+
     [super drawRect:rect];
-}
-- (void)drawRect2:(CGRect)rect
-{
-    NSRange range = [self.text rangeOfString:@":allthethings:"];
-
-    CFStringRef string; CTFontRef font; CGContextRef context;
-
-    string = (__bridge CFStringRef)(self.text);
-    font = (__bridge CTFontRef)self.font;
-    context = UIGraphicsGetCurrentContext();
-
-    CGContextConcatCTM(context, CGAffineTransformScale(CGAffineTransformMakeTranslation(0, self.bounds.size.height), 1.f, -1.f));
-
-    // Initialize string, font, and context
-    CFStringRef keys[] = { kCTFontAttributeName };
-    CFTypeRef values[] = { font };
-
-    CFDictionaryRef attributes =
-    CFDictionaryCreate(kCFAllocatorDefault, (const void**)&keys,
-                       (const void**)&values, sizeof(keys) / sizeof(keys[0]),
-                       &kCFTypeDictionaryKeyCallBacks,
-                       &kCFTypeDictionaryValueCallBacks);
-
-    CFAttributedStringRef attrString =
-    CFAttributedStringCreate(kCFAllocatorDefault, string, attributes);
-    CFRelease(string);
-    CFRelease(attributes);
-
-    CTLineRef line = CTLineCreateWithAttributedString(attrString);
-    CGFloat offset = CTLineGetOffsetForStringIndex(line, range.location, nil);
-
-    CFArrayRef runArray = CTLineGetGlyphRuns(line);
-    CFIndex runCount = CFArrayGetCount(runArray);
-
-    CGRect daBears;
-    for (int runIndex = 0; runIndex < runCount; runIndex++) {
-        CTRunRef run = (CTRunRef)CFArrayGetValueAtIndex(runArray, runIndex);
-        daBears = CTRunGetImageBounds(run, context, CFRangeMake(range.location, range.length));
-        NSLog(@"%@", NSStringFromCGRect(daBears));
-    }
-
-    // Set text position and draw the line into the graphics context
-    CGContextSetTextPosition(context, 0.0, 10.0);
-    CTLineDraw(line, context);
-    CFRelease(line);
-
-    CGContextSetRGBFillColor(context, 1.0, 0.0, 0.0, 0.4);
-    CGContextConcatCTM(context, CGAffineTransformScale(CGAffineTransformMakeTranslation(0, self.bounds.size.height), 1.f, -1.f));
-    CGContextFillRect(context, daBears);
 
 }
 
