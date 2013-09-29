@@ -32,7 +32,7 @@ static NSDictionary *emotiMap;
 
 #pragma mark - Access Methods
 + (UIImage *)emotiForName:(NSString *)string {
-    return [emotiMap objectForKey:string];g
+    return [emotiMap objectForKey:string];
 }
 
 @end
