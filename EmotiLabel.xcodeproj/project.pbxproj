@@ -24,6 +24,7 @@
 		478B645817EF317E004CCE09 /* EMOLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 478B645717EF317E004CCE09 /* EMOLabel.m */; };
 		478B645A17EF6280004CCE09 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 478B645917EF6280004CCE09 /* CoreText.framework */; };
 		478B645C17EF7F94004CCE09 /* allthethings.png in Resources */ = {isa = PBXBuildFile; fileRef = 478B645B17EF7F94004CCE09 /* allthethings.png */; };
+		47FAC44717F86B4200DEB90D /* EMOHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 47FAC44617F86B4200DEB90D /* EMOHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,8 @@
 		478B645717EF317E004CCE09 /* EMOLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMOLabel.m; sourceTree = "<group>"; };
 		478B645917EF6280004CCE09 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		478B645B17EF7F94004CCE09 /* allthethings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = allthethings.png; sourceTree = "<group>"; };
+		47FAC44517F86B4200DEB90D /* EMOHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMOHelper.h; sourceTree = "<group>"; };
+		47FAC44617F86B4200DEB90D /* EMOHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMOHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +171,8 @@
 			children = (
 				478B645617EF317E004CCE09 /* EMOLabel.h */,
 				478B645717EF317E004CCE09 /* EMOLabel.m */,
+				47FAC44517F86B4200DEB90D /* EMOHelper.h */,
+				47FAC44617F86B4200DEB90D /* EMOHelper.m */,
 			);
 			path = EMOLabel;
 			sourceTree = "<group>";
@@ -275,6 +280,7 @@
 				478B642D17EF314C004CCE09 /* main.m in Sources */,
 				478B645817EF317E004CCE09 /* EMOLabel.m in Sources */,
 				478B643717EF314C004CCE09 /* EMOViewController.m in Sources */,
+				47FAC44717F86B4200DEB90D /* EMOHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,6 +489,7 @@
 				478B645117EF314C004CCE09 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		478B645217EF314C004CCE09 /* Build configuration list for PBXNativeTarget "EmotiLabelTests" */ = {
 			isa = XCConfigurationList;
@@ -491,6 +498,7 @@
 				478B645417EF314C004CCE09 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
