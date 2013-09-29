@@ -12,9 +12,14 @@
 
 @property (strong, nonatomic) NSString *name;
 @property (assign, nonatomic) NSRange   range;
+@property (assign, nonatomic) NSRange   replacementRange;
 @property (strong, nonatomic) NSString *replacementString;
-@property (assign, nonatomic) CGRect    emoticonFrame;
+@property (strong, nonatomic) NSString *replacementStringMarker;
+@property (assign, nonatomic) CGSize    emoticonSize;
+@property (assign, nonatomic) NSInteger index;
 
 + (id)data;
+- (void)updateReplacementStringWithAttributes:(NSDictionary *)attributes;
+- (void)updateWithFontDescent:(CGFloat)descent;
 
 @end

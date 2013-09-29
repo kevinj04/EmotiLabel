@@ -12,6 +12,8 @@
 
 + (void)setEmotiMap:(NSDictionary *)map;
 + (UIImage *)emotiForName:(NSString *)string;
-+ (NSArray *)replacementStringsForString:(NSString *)string;
++ (NSArray *)replacementStringsForString:(NSAttributedString *)string;
++ (NSAttributedString *)eraseStringsForEmoti:(NSArray *)emotis fromString:(NSAttributedString *)string;
++ (NSAttributedString *)eraseMarkerStringsForEmoti:(NSArray *)emotis fromString:(NSAttributedString *)string;
 
 @end
