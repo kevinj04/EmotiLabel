@@ -7,6 +7,7 @@
 //
 
 #import "EMOViewController.h"
+#import "EMOHelper.h"
 
 @interface EMOViewController ()
 
@@ -18,6 +19,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+
+    NSDictionary *emotis = @{@"allthethings": @"allthethings.png"};
+    [EMOHelper setEmotiMap:emotis];
 }
 
 - (void)didReceiveMemoryWarning

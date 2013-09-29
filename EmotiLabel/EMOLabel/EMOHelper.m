@@ -7,6 +7,7 @@
 //
 
 #import "EMOHelper.h"
+#import "EMOData.h"
 
 static NSDictionary *emotiMap;
 
@@ -18,16 +19,31 @@ static NSDictionary *emotiMap;
 }
 
 #pragma mark - Parser Methods
-+ (NSArray *)imageNamesForString:(NSString *)string {
++ (NSArray *)replacementStringsForString:(NSString *)string {
 
-    NSArray *possibleEmoti = [string componentsSeparatedByString:@":"];
-    NSMutableArray *emoti = @[].mutableCopy;
-    for (NSString *token in possibleEmoti) {
-        if ([emotiMap.allKeys containsObject:token]) {
-            [emoti addObject:token];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:
+                                  @":\\w+:" options:0 error:nil];
+    NSArray *results = [regex matchesInString:string
+                                      options:0
+                                        range:NSMakeRange(0, [string length])];
+
+    NSMutableArray *emotis = @[].mutableCopy;
+    for (NSTextCheckingResult *textResult in results)
+    {
+        if (textResult.range.length > 0)
+        {
+            NSString *substring = [string substringWithRange:textResult.range];
+            NSString *name = [substring stringByReplacingOccurrencesOfString:@":" withString:@""];
+            if ([emotiMap.allKeys containsObject:name]) {
+                EMOData *data = [EMOData data];
+                data.name = name;
+                data.range = textResult.range;
+                [emotis addObject:data];
+            }
         }
     }
-    return [NSArray arrayWithArray:emoti];
+
+    return [NSArray arrayWithArray:emotis];
 }
 
 #pragma mark - Access Methods

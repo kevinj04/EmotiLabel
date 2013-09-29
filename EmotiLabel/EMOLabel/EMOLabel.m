@@ -9,6 +9,7 @@
 #import "EMOLabel.h"
 #import <CoreGraphics/CoreGraphics.h>
 #import <CoreText/CoreText.h>
+#import "EMOHelper.h"
 
 @implementation EMOLabel
 
@@ -60,6 +61,10 @@
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
+
+    NSArray *emotis = [EMOHelper replacementStringsForString:self.text];
+    NSLog(@"%@", emotis);
+
 
     // Drawing Context needs to be flipped for text?
     CGContextRef context = UIGraphicsGetCurrentContext();

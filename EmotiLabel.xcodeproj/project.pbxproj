@@ -25,6 +25,7 @@
 		478B645A17EF6280004CCE09 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 478B645917EF6280004CCE09 /* CoreText.framework */; };
 		478B645C17EF7F94004CCE09 /* allthethings.png in Resources */ = {isa = PBXBuildFile; fileRef = 478B645B17EF7F94004CCE09 /* allthethings.png */; };
 		47FAC44717F86B4200DEB90D /* EMOHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 47FAC44617F86B4200DEB90D /* EMOHelper.m */; };
+		47FAC44A17F8765700DEB90D /* EMOData.m in Sources */ = {isa = PBXBuildFile; fileRef = 47FAC44917F8765700DEB90D /* EMOData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,8 @@
 		478B645B17EF7F94004CCE09 /* allthethings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = allthethings.png; sourceTree = "<group>"; };
 		47FAC44517F86B4200DEB90D /* EMOHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMOHelper.h; sourceTree = "<group>"; };
 		47FAC44617F86B4200DEB90D /* EMOHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMOHelper.m; sourceTree = "<group>"; };
+		47FAC44817F8765700DEB90D /* EMOData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMOData.h; sourceTree = "<group>"; };
+		47FAC44917F8765700DEB90D /* EMOData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMOData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +176,8 @@
 				478B645717EF317E004CCE09 /* EMOLabel.m */,
 				47FAC44517F86B4200DEB90D /* EMOHelper.h */,
 				47FAC44617F86B4200DEB90D /* EMOHelper.m */,
+				47FAC44817F8765700DEB90D /* EMOData.h */,
+				47FAC44917F8765700DEB90D /* EMOData.m */,
 			);
 			path = EMOLabel;
 			sourceTree = "<group>";
@@ -277,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				478B643117EF314C004CCE09 /* EMOAppDelegate.m in Sources */,
+				47FAC44A17F8765700DEB90D /* EMOData.m in Sources */,
 				478B642D17EF314C004CCE09 /* main.m in Sources */,
 				478B645817EF317E004CCE09 /* EMOLabel.m in Sources */,
 				478B643717EF314C004CCE09 /* EMOViewController.m in Sources */,

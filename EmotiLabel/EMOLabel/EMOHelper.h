@@ -11,7 +11,7 @@
 @interface EMOHelper : NSObject
 
 + (void)setEmotiMap:(NSDictionary *)map;
-+ (NSArray *)imageNamesForString:(NSString *)string;
 + (UIImage *)emotiForName:(NSString *)string;
++ (NSArray *)replacementStringsForString:(NSString *)string;
 
 @end
