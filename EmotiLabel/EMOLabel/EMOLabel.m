@@ -84,7 +84,7 @@
                 if (CTRunGetGlyphCount(run) > searchResultRange.location) {
                     CFRange runRange = CTRunGetStringRange(run);
                     bounds = CTRunGetImageBounds(run, context, CFRangeMake(searchResultRange.location, runRange.length - searchResultRange.location));
-                    bounds = CGRectMake(bounds.origin.x, self.frame.size.height - lineOffset.y - gs*descent, emoti.emoticonSize.width, emoti.emoticonSize.height);
+                    bounds = CGRectMake(bounds.origin.x, self.frame.size.height - lineOffset.y - 2*descent, emoti.emoticonSize.width, emoti.emoticonSize.height);
 
                 }
             }
